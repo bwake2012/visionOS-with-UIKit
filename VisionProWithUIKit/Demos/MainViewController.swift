@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  VisionProWithUIKit
 //
 //  Created by Chiaote Ni on 2023/7/18.
@@ -7,9 +7,19 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
 
-    #if os(xrOS)
+    override func loadView() {
+        super.loadView()
+
+        let view = MainView(frame: .zero)
+        view.uiComponentsButton.addTarget(self, action: #selector(onTapComponentButton(sender:)), for: .touchUpInside)
+        view.presentOrnamentsAndHoverStyleButton.addTarget(self, action: #selector(onTapOrnamentsAndHoverStyleButton(sender:)), for: .touchUpInside)
+
+        self.view = view
+    }
+
+    #if os(visionOS)
     // Indicates the view controller's preference to be displayed on top of a background.
     // The default value is automatic.
     override var preferredContainerBackgroundStyle: UIContainerBackgroundStyle {
@@ -32,4 +42,14 @@ final class ViewController: UIViewController {
     }
 
     #endif
+
+    @objc func onTapComponentButton(sender: UIButton) {
+
+        self.navigationController?.pushViewController(ComponentsViewController(), animated: true)
+    }
+
+    @objc func onTapOrnamentsAndHoverStyleButton(sender: UIButton) {
+
+        self.navigationController?.pushViewController(OrnamentViewController(), animated: true)
+    }
 }

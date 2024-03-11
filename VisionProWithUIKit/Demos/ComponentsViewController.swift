@@ -11,6 +11,12 @@ import UIKit
 // Subsequently, you can compare the differences of the UIs for the components between these 2 platforms.
 final class ComponentsViewController: UIViewController {
 
+    override func loadView() {
+        super.loadView()
+
+        view = ComponentsView()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
