@@ -17,6 +17,8 @@ final class ComponentsView: UIView {
         super.init(frame: frame)
 
         setupView()
+
+        activityIndicatorView.startAnimating()
     }
 
     required init?(coder: NSCoder) {
@@ -28,6 +30,7 @@ final class ComponentsView: UIView {
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.contentMode = .scaleToFill
+        stackView.distribution = .fillProportionally
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 16
@@ -158,7 +161,7 @@ final class ComponentsView: UIView {
         label.contentMode = .left
         label.text = "Label"
         label.textAlignment = .natural
-        label.lineBreakMode = .byTruncatingTail
+        label.lineBreakMode = .byWordWrapping
         label.baselineAdjustment = .alignBaselines
         label.adjustsFontSizeToFitWidth = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -250,6 +253,18 @@ final class ComponentsView: UIView {
     func assembleViews(to view: UIView) {
 
         view.addSubview(mainStackView)
+
+        topStackView.addArrangedSubview(label)
+        topStackView.addArrangedSubview(plainButton)
+        topStackView.addArrangedSubview(filledButton)
+
+        buttonStackView.addArrangedSubview(tintedButton)
+        buttonStackView.addArrangedSubview(showMenuButton)
+        buttonStackView.addArrangedSubview(menuShownButton)
+
+        progressAndActivityStackView.addArrangedSubview(progressView)
+        progressAndActivityStackView.addArrangedSubview(activityIndicatorView)
+
         mainStackView.addArrangedSubview(topStackView)
         mainStackView.addArrangedSubview(buttonStackView)
         mainStackView.addArrangedSubview(textField)
@@ -262,14 +277,6 @@ final class ComponentsView: UIView {
         mainStackView.addArrangedSubview(colorWell)
         mainStackView.addArrangedSubview(datePicker)
         mainStackView.addArrangedSubview(pickerView)
-        topStackView.addArrangedSubview(label)
-        topStackView.addArrangedSubview(plainButton)
-        topStackView.addArrangedSubview(filledButton)
-        buttonStackView.addArrangedSubview(tintedButton)
-        buttonStackView.addArrangedSubview(showMenuButton)
-        buttonStackView.addArrangedSubview(menuShownButton)
-        progressAndActivityStackView.addArrangedSubview(progressView)
-        progressAndActivityStackView.addArrangedSubview(activityIndicatorView)
     }
 
     // <------------- Constraints --------------->
@@ -282,12 +289,9 @@ final class ComponentsView: UIView {
             progressView.widthAnchor.constraint(equalToConstant: 200),
 
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            mainStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 8.0),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 8.0),
         ])
     }
 
