@@ -69,7 +69,7 @@ final class ComponentsView: UIView {
     }()
 
     private lazy var segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
+        let segmentedControl = UISegmentedControl(items: ["First", "Second", "Third"])
         segmentedControl.contentMode = .scaleToFill
         segmentedControl.contentHorizontalAlignment = .left
         segmentedControl.contentVerticalAlignment = .top
@@ -151,6 +151,8 @@ final class ComponentsView: UIView {
 
     private lazy var pickerView: UIPickerView = {
         let pickerView = UIPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
         pickerView.contentMode = .scaleToFill
         pickerView.translatesAutoresizingMaskIntoConstraints = false
         return pickerView
@@ -175,8 +177,8 @@ final class ComponentsView: UIView {
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Button", for: .normal)
         button.configuration = .plain()
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.setTitle("Plain Button", for: .normal)
         return button
     }()
@@ -187,8 +189,8 @@ final class ComponentsView: UIView {
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Button", for: .normal)
         button.configuration = .filled()
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.setTitle("Filled Button", for: .normal)
         return button
     }()
@@ -199,8 +201,8 @@ final class ComponentsView: UIView {
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Button", for: .normal)
         button.configuration = .tinted()
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.setTitle("Tinted Button", for: .normal)
         return button
     }()
@@ -212,6 +214,7 @@ final class ComponentsView: UIView {
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.setTitle("Show Menu Button", for: .normal)
         button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         return button
@@ -225,6 +228,7 @@ final class ComponentsView: UIView {
         button.contentVerticalAlignment = .center
         button.changesSelectionAsPrimaryAction = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.setTitle("Menu Shown Button", for: .normal)
         button.setImage(UIImage(systemName: "square.and.arrow.up.fill"), for: .normal)
         return button
@@ -303,5 +307,25 @@ final class ComponentsView: UIView {
         addConstraints(to: self)
 
         self.backgroundColor = .systemBackground
+    }
+}
+
+extension ComponentsView: UIPickerViewDataSource {
+    static let pickerViewData = [
+        "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth"
+    ]
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        Self.pickerViewData.count
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+}
+
+extension ComponentsView: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        Self.pickerViewData[row]
     }
 }
